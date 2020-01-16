@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentMap;
 
 public class c2c extends ClassLoader {
     String libPath="/Users/twal7ers/Documents/projects/client2client/lib/";
-    String lib36=libPath+"hazelcast-all-3.12.5.jar";
-    String lib38=libPath+"hazelcast-all-4.0-BETA-2.jar";
+    String libold=libPath+"hazelcast-all-3.12.5.jar";
+    String libnew=libPath+"hazelcast-all-4.0-BETA-2.jar";
 
     public static void main(String[] args) {
 
@@ -20,31 +20,31 @@ public class c2c extends ClassLoader {
     public void testMaps(String mapName){
         try {
 
-            // 36 cluster
-            Class client36config = loadClass("com.hazelcast.client.config.ClientConfig",lib36);
-            Object client36Config = client36config.newInstance();
-            Class client36hazelcast = loadClass("com.hazelcast.client.HazelcastClient",lib36);
-            Method H36 = client36hazelcast.getMethod("newHazelcastClient");
-            Object h36 = H36.invoke(client36Config);
-            Method getMap36 = h36.getClass().getMethod("getMap", String.class);
-            ConcurrentMap<String, String> map36 = (ConcurrentMap<String, String>) getMap36.invoke(h36, mapName);
+            // old cluster
+            Class clientoldconfig = loadClass("com.hazelcast.client.config.ClientConfig",libold);
+            Object clientoldConfig = clientoldconfig.newInstance();
+            Class clientoldhazelcast = loadClass("com.hazelcast.client.HazelcastClient",libold);
+            Method Hold = clientoldhazelcast.getMethod("newHazelcastClient");
+            Object hold = Hold.invoke(clientoldConfig);
+            Method getMapold = hold.getClass().getMethod("getMap", String.class);
+            ConcurrentMap<String, String> mapold = (ConcurrentMap<String, String>) getMapold.invoke(hold, mapName);
 
             for (int i = 0; i < 10000; i++) {
-                map36.put("Terry"+i,"Dynamic Class Loading Example: "+i);
+                mapold.put("Terry"+i,"Dynamic Class Loading Example: "+i);
             }
 
 
-            // 38 cluster
-            Class client38config = loadClass("com.hazelcast.client.config.ClientConfig",lib38);
-            Object client38Config = client36config.newInstance();
-            Class client38hazelcast = loadClass("com.hazelcast.client.HazelcastClient",lib38);
-            Method H38 = client38hazelcast.getMethod("newHazelcastClient");
-            Object h38 = H38.invoke(client38Config);
-            Method getMap38 = h38.getClass().getMethod("getMap", String.class);
-            ConcurrentMap<String, String> map38 = (ConcurrentMap<String, String>) getMap38.invoke(h38, mapName);
+            // new cluster
+            Class clientnewconfig = loadClass("com.hazelcast.client.config.ClientConfig",libnew);
+            Object clientnewConfig = clientoldconfig.newInstance();
+            Class clientnewhazelcast = loadClass("com.hazelcast.client.HazelcastClient",libnew);
+            Method Hnew = clientnewhazelcast.getMethod("newHazelcastClient");
+            Object hnew = Hnew.invoke(clientnewConfig);
+            Method getMapnew = hnew.getClass().getMethod("getMap", String.class);
+            ConcurrentMap<String, String> mapnew = (ConcurrentMap<String, String>) getMapnew.invoke(hnew, mapName);
 
-            map38.putAll(map36);
-            System.out.println(map38.size());
+            mapnew.putAll(mapold);
+            System.out.println(mapnew.size());
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
