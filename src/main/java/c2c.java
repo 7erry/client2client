@@ -29,7 +29,7 @@ public class c2c extends ClassLoader {
             Method getMap36 = h36.getClass().getMethod("getMap", String.class);
             ConcurrentMap<String, String> map36 = (ConcurrentMap<String, String>) getMap36.invoke(h36, mapName);
 
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 10000; i++) {
                 map36.put("Terry"+i,"Dynamic Class Loading Example: "+i);
             }
 
