@@ -7,9 +7,9 @@ import java.net.URLClassLoader;
 import java.util.concurrent.ConcurrentMap;
 
 public class c2c extends ClassLoader {
-    String libPath="/Users/terrywalters/Documents/projects/client2client/lib/";
-    String lib36=libPath+"hazelcast-3.6/lib/hazelcast-all-3.6.jar";
-    String lib38=libPath+"hazelcast-3.8/lib/hazelcast-all-3.8.jar";
+    String libPath="/Users/twal7ers/Documents/projects/client2client/lib/";
+    String lib36=libPath+"hazelcast-all-3.12.5.jar";
+    String lib38=libPath+"hazelcast-all-4.0-BETA-2.jar";
 
     public static void main(String[] args) {
 
@@ -36,7 +36,7 @@ public class c2c extends ClassLoader {
 
             // 38 cluster
             Class client38config = loadClass("com.hazelcast.client.config.ClientConfig",lib38);
-            Object client38Config = client38config.newInstance();
+            Object client38Config = client36config.newInstance();
             Class client38hazelcast = loadClass("com.hazelcast.client.HazelcastClient",lib38);
             Method H38 = client38hazelcast.getMethod("newHazelcastClient");
             Object h38 = H38.invoke(client38Config);
@@ -50,11 +50,11 @@ public class c2c extends ClassLoader {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
